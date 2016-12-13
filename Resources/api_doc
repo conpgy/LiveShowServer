@@ -1,0 +1,22 @@
+
+/// banner
+http://qf.56.com/home/v4/getBanners.ios
+
+/// rank排名
+http://qf.56.com/rank/v1/rankStar.ios
+http://qf.56.com/rank/v1/rankWealth.ios
+http://qf.56.com/rank/v1/rankPopularity.ios
+http://qf.56.com/rank/v1/rankAll.ios
+
+///
+http://qf.56.com/home/v4/guess.ios
+
+/// 礼物
+http://qf.56.com/pay/v4/giftList.ios
+
+/// moreAnchor
+http://qf.56.com/home/v4/moreAnchor.ios
+
+
+/// live
+http://qf.56.com/play/v2/preLoading.ios
