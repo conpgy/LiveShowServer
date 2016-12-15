@@ -24,7 +24,7 @@ class Config {
     static let rankStarUrl = domain + "/rank/v1/rankStar.ios"
     static let rankWealthUrl = domain + "/rank/v1/rankWealth.ios"
     static let rankPopularityUrl = domain + "/rank/v1/rankPopularity.ios"
-    static let rankAllUrl = domain + "/rank/v1/rankAll.ios"
+    static let rankAllUrl = domain + "/activity/star/v1/rankAll.ios"
     static let guessUrl = domain + "/home/v4/guess.ios"
     static let moreAnchorUrl = domain + "/home/v4/moreAnchor.ios"
     static let giftListUrl = domain + "/pay/v4/giftList.ios"

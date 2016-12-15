@@ -46,8 +46,31 @@ public class LiveShowServer {
         // 周星榜
         router.get("/rankAll") {
             request, response,nextHandler in
-            self.rankRequest(url: Config.rankAllUrl, parameters: request.queryParameters, with: response)
             
+            var params = request.queryParameters;
+            params["imei"] = "36301BB0-8BBA-48B0-91F5-33F1517FA056"
+            
+            if let type = params["type"] {
+                if let number = Int(type) {
+                    params["signature"] = number == 0 ? "b4523db381213dde637a2e407f6737a6" : "d23e92d56b1f1ac6644e5820eb336c3e"
+                    params["ts"] = number == 0 ? "1480399365" : "1480414121"
+                    params["weekly"] = "\(number)"
+                    params["pageSize"]="30" // 不传30不行啊
+                    params.removeValue(forKey: "type")
+                }
+            }
+            
+            print("rankAll params: \(params)")
+            
+            self.rankRequest(url: Config.rankAllUrl, parameters: params, with: response)
+            
+            nextHandler()
+        }
+        
+        
+        router.get("/home/anchors") {
+            request, response,nextHandler in
+            self.rankRequest(url: Config.moreAnchorUrl, parameters: request.queryParameters, with: response)
             nextHandler()
         }
         
@@ -80,6 +103,8 @@ public class LiveShowServer {
 }
 
 extension LiveShowServer {
+    
+    /// rank request
     func rankRequest(url: String, parameters: [String:String], with response: RouterResponse) -> Void {
         
         KituraRequest.request(.get, url, parameters: parameters).response {
@@ -94,7 +119,7 @@ extension LiveShowServer {
             do {
                 try response.send(json: json).end()
             } catch {
-                Log.error("rank error. url: \(url)")
+                Log.error("request error. url: \(url)")
             }
         }
     }
