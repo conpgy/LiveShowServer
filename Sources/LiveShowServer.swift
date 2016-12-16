@@ -74,6 +74,51 @@ public class LiveShowServer {
             nextHandler()
         }
         
+        router.get("/play/live") {
+            request, response,nextHandler in
+            
+            
+            var params = [String: String]()
+            params["imei"] =  "36301BB0-8BBA-48B0-91F5-33F1517FA056"
+            params["signature"] = "f69f4d7d2feb3840f9294179cbcb913f"
+            params["roomId"] = request.queryParameters["roomId"] ?? ""
+            params["userId"] = request.queryParameters["userId"] ?? ""
+            
+            
+            KituraRequest.request(.get, Config.preLoadingLiveUrl, parameters: params).response {
+                _, _, data, error in
+                
+                guard let data = data else {
+                    return
+                }
+                let json = JSON(data: data)
+                print(json)
+                
+                guard let rUrl = json["message"]["rUrl"].string else {
+                    return
+                }
+                
+                KituraRequest.request(.get, rUrl).response({ (_, _, liveData, liverError) in
+                    guard let liveData = liveData else {
+                        return
+                    }
+                    let liveJson = JSON(data:liveData)
+                    guard let liveUrl = liveJson["url"].string else {
+                        return
+                    }
+                    
+                    do {
+                        try response.send(liveUrl).end()
+                    } catch {
+                        Log.error("get liver url fail..")
+                    }
+                })
+                
+                
+            }
+            nextHandler()
+        }
+        
         
         router.get("/") {
             request, response,nextHandler in

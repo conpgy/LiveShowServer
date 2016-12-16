@@ -28,5 +28,7 @@ class Config {
     static let guessUrl = domain + "/home/v4/guess.ios"
     static let moreAnchorUrl = domain + "/home/v4/moreAnchor.ios"
     static let giftListUrl = domain + "/pay/v4/giftList.ios"
-    static let preLoadingUrl = domain + "/pay/v2/preLoading.ios"
+    
+    
+    static let preLoadingLiveUrl = domain + "/play/v2/preLoading.ios"
 }
