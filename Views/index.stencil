@@ -1,5 +1,6 @@
 <html>
     <head>
+        <meta charset="utf-8"/>
         <title>onejiall</title>
 <style>
 
@@ -16,9 +17,9 @@ body {
     padding:0;
     margin-bottom:20px;
 }
-
 </style>
-    </head>
+
+</head>
 
 
 <body>
