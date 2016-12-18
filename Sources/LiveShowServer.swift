@@ -12,12 +12,25 @@ import KituraRequest
 import SwiftyJSON
 import HeliumLogger
 import LoggerAPI
+import Stencil
+import KituraStencil
+import KituraMustache
 
 public class LiveShowServer {
     
     let router = Router()
     
     init() {
+        
+        // 静态文件服务
+        router.all("/static", middleware: StaticFileServer())
+        
+        // 注册stencil模板引擎
+        let nameSpace = Namespace()
+        nameSpace.registerSimpleTag("custom") { _ in
+            return "Hello world"
+        }
+        router.add(templateEngine: StencilTemplateEngine(namespace: nameSpace))
         
         // 明星榜
         router.get("/rankStar") {
@@ -122,7 +135,12 @@ public class LiveShowServer {
         
         router.get("/") {
             request, response,nextHandler in
-            response.send("index")
+            do {
+                try response.render("index.stencil", context: [:]).end()
+            } catch {
+                Log.error("Failed to render index.stencil \(error.localizedDescription)")
+            }
+            
             nextHandler()
         }
         
