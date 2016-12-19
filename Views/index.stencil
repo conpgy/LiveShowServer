@@ -25,6 +25,7 @@ body {
 <body>
     <div style="background-color:#2ca6cb; width:100%; height:100px;">
         <div style="color:#fff; font-size:30; padding-top:30px; padding-left:60px">一即一切，一切即一</div>
+<div>访问量: {{pv}}</div>
     </div>
     <img class="fun" src="http://onejiall.oss-cn-beijing.aliyuncs.com/picture/930505.png" />
     <img class="fun" src="http://onejiall.oss-cn-beijing.aliyuncs.com/picture/930500.png" />

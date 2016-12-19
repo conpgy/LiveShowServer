@@ -16,9 +16,13 @@ import Stencil
 import KituraStencil
 import KituraMustache
 
+import MiniPromiseKit
+
 public class LiveShowServer {
     
     let router = Router()
+    let database = Database()
+    let queue = DispatchQueue(label: "com.liveshow-database", attributes: .concurrent)
     
     init() {
         
@@ -135,13 +139,30 @@ public class LiveShowServer {
         
         router.get("/") {
             request, response,nextHandler in
-            do {
-                try response.render("index.stencil", context: [:]).end()
-            } catch {
-                Log.error("Failed to render index.stencil \(error.localizedDescription)")
-            }
             
-            nextHandler()
+            var pv: String?
+            let _ = firstly { () -> Promise<String> in
+                self.database.queryPV()
+                
+                }.then(on: self.queue) { pV in
+                    print("pv: \(pV)")
+                    pv = pV
+                    
+                    let context = ["pv": pv ?? ""]
+                    do {
+                        try response.render("index.stencil", context: context).end()
+                    } catch {
+                        Log.error("Failed to render index.stencil \(error.localizedDescription)")
+                    }
+                    
+                    nextHandler()
+                    
+                    // 访问量加1
+                    
+                    
+                } .catch(on: self.queue) { error in
+                    response.status(.badRequest).send(error.localizedDescription)
+            }
         }
         
         // A custom Not found handler
