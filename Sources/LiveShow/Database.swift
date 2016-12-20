@@ -20,10 +20,10 @@ class Database {
     static let accessStatisticTable = AccessStatisticTable()
     
     private func createConnection() -> Connection {
-        return PostgreSQLConnection(host: Config.databaseHost, port: Config.databasePort,
-                                    options: [.userName(Config.databaseUserName),
-                                              .password(Config.databasePassword),
-                                              .databaseName(Config.databaseName)])
+        return PostgreSQLConnection(host: PrivateConfig.databaseHost, port: PrivateConfig.databasePort,
+                                    options: [.userName(PrivateConfig.databaseUserName),
+                                              .password(PrivateConfig.databasePassword),
+                                              .databaseName(PrivateConfig.databaseName)])
     }
     
     

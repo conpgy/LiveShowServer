@@ -10,14 +10,7 @@ import Foundation
 
 class Config {
     
-    static let databaseUserName = "penggenyong"
-    static let databasePassword = "penggenyong"
-    static let databaseHost = "localhost"
-    static let databasePort = Int32(5432)
-    static let databaseName = "live-show"
-    
     static let serverPort = 8092
-    
     
     // api url
     static let domain = "http://qf.56.com"
