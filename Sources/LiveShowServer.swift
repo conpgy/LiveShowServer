@@ -140,29 +140,16 @@ public class LiveShowServer {
         router.get("/") {
             request, response,nextHandler in
             
-            var pv: String?
-            let _ = firstly { () -> Promise<String> in
-                self.database.queryPV()
-                
-                }.then(on: self.queue) { pV in
-                    print("pv: \(pV)")
-                    pv = pV
-                    
-                    let context = ["pv": pv ?? ""]
-                    do {
-                        try response.render("index.stencil", context: context).end()
-                    } catch {
-                        Log.error("Failed to render index.stencil \(error.localizedDescription)")
-                    }
-                    
-                    nextHandler()
-                    
-                    // 访问量加1
-                    
-                    
-                } .catch(on: self.queue) { error in
-                    response.status(.badRequest).send(error.localizedDescription)
+            let pv = self.database.queryAndUpdatePV()
+            let context = ["pv": pv]
+            do {
+                try response.render("index.stencil", context: context).end()
+            } catch {
+                Log.error("Failed to render index.stencil \(error.localizedDescription)")
             }
+            
+            nextHandler()
+            
         }
         
         // A custom Not found handler

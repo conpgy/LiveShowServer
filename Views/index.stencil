@@ -1,22 +1,19 @@
 <html>
-    <head>
-        <meta charset="utf-8"/>
-        <title>onejiall</title>
+<head>
+    <meta charset="utf-8"/>
+    <title>onejiall</title>
 <style>
-
-img.fun {
-    width:800px;
-    height:600px;
-    display:block;
-    margin:auto;
-    padding-top:20px;
-}
-
-body {
-    margin:0;
-    padding:0;
-    margin-bottom:20px;
-}
+    img.fun {
+        width:800px;
+        height:600px;
+        display:block;
+        margin:auto;
+        padding-top:20px;
+    }
+    body {
+        margin:0;
+        padding:0;
+    }
 </style>
 
 </head>
@@ -24,14 +21,16 @@ body {
 
 <body>
     <div style="background-color:#2ca6cb; width:100%; height:100px;">
-        <div style="color:#fff; font-size:30; padding-top:30px; padding-left:60px">一即一切，一切即一</div>
-<div>访问量: {{pv}}</div>
+        <div style="color:#fff; font-size:30px; padding-top:30px; padding-left:60px">一即一切，一切即一</div>
     </div>
     <img class="fun" src="http://onejiall.oss-cn-beijing.aliyuncs.com/picture/930505.png" />
     <img class="fun" src="http://onejiall.oss-cn-beijing.aliyuncs.com/picture/930500.png" />
     <img class="fun" src="http://onejiall.oss-cn-beijing.aliyuncs.com/picture/930502.png" />
     <img class="fun" src="http://onejiall.oss-cn-beijing.aliyuncs.com/picture/930503.png" />
+
+    <footer style="background-color: #2b2f32;height: 50px;margin-top: 20px;">
+        <div style="color: #777d80; padding-left: 50px; line-height: 50px; font-size: 15px;">恭喜! 您是本站的第 <span style="font-size: 20px;">{{pv}}</span> 位访客 </div>
+    </footer>
+
 </body>
-
-
 </html>

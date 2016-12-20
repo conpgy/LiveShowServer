@@ -10,9 +10,9 @@ import Foundation
 
 class Config {
     
-    static let databaseUserName = "root"
-    static let databasePassword = "qaws12"
-    static let databaseHost = "60.205.190.199"
+    static let databaseUserName = "penggenyong"
+    static let databasePassword = "penggenyong"
+    static let databaseHost = "localhost"
     static let databasePort = Int32(5432)
     static let databaseName = "live-show"
     
