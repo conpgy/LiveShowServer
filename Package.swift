@@ -3,8 +3,10 @@ import PackageDescription
 let package = Package(
     name: "LiveShowServer",
     targets: [
-    	Target(name: "LiveShowServer")
+        Target(name: "Server", dependencies: [.Target(name: "LiveShow")]),
+        Target(name: "LiveShow")
     ],
+
 	dependencies: [
 		.Package(url: "https://github.com/IBM-Swift/HeliumLogger.git",       majorVersion: 1, minor: 3),
 		.Package(url: "https://github.com/IBM-Swift/Kitura.git",             majorVersion: 1, minor: 3),
@@ -13,6 +15,6 @@ let package = Package(
         .Package(url: "https://github.com/IBM-Swift/Kitura-Request.git", majorVersion: 0),
         .Package(url: "https://github.com/IBM-Swift/Kitura-MustacheTemplateEngine.git", majorVersion: 1, minor: 1),
         .Package(url: "https://github.com/IBM-Swift/Kitura-StencilTemplateEngine.git", majorVersion: 1, minor: 4),
-        .Package(url: "https://github.com/IBM-Swift/Kitura-Markdown", majorVersion: 0, minor: 5)
+        .Package(url: "https://github.com/IBM-Swift/Kitura-Markdown", majorVersion: 0, minor: 5),
 	]
 )

@@ -1,5 +1,6 @@
 import LoggerAPI
 import HeliumLogger
+import LiveShow
 
 
 Log.logger = HeliumLogger()

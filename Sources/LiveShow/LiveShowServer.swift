@@ -24,7 +24,7 @@ public class LiveShowServer {
     let database = Database()
     let queue = DispatchQueue(label: "com.liveshow-database", attributes: .concurrent)
     
-    init() {
+    public init() {
         
         // 静态文件服务
         router.all("/static", middleware: StaticFileServer())
@@ -167,7 +167,7 @@ public class LiveShowServer {
     }
     
     // 启动服务器
-    func run() -> Void {
+    public func run() -> Void {
         Kitura.addHTTPServer(onPort: Config.serverPort, with: router)
         Kitura.run()
     }
