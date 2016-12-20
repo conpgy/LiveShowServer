@@ -6,7 +6,7 @@
 //
 //
 
-import Foundation
+import Dispatch
 import SwiftKuery
 import SwiftKueryPostgreSQL
 import MiniPromiseKit

@@ -6,7 +6,7 @@
 //
 //
 
-import Foundation
+import Dispatch
 import Kitura
 import KituraRequest
 import SwiftyJSON
@@ -156,7 +156,7 @@ public class LiveShowServer {
         router.all { request, response, next in
             if  response.statusCode == .unknown  {
                 // Remove this wrapping if statement, if you want to handle requests to / as well
-                let path = request.urlComponents.path
+                let path = request.urlURL.path
                 if  path != "/" && path != ""  {
                     try response.status(.notFound).send("Api not found!").end()
                 }
