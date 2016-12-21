@@ -22,7 +22,7 @@ public class LiveShowServer {
     
     let router = Router()
     let database = Database()
-    let queue = DispatchQueue(label: "com.liveshow-database", attributes: .concurrent)
+    let queue = DispatchQueue(label: "com.liveshow-server", attributes: .concurrent)
     
     public init() {
         
@@ -140,16 +140,23 @@ public class LiveShowServer {
         router.get("/") {
             request, response,nextHandler in
             
-            let pv = self.database.queryAndUpdatePV()
-            let context = ["pv": pv]
-            do {
+            let _ = firstly {
+                
+                // query and update pv
+                self.database.queryAndUpdatePV()
+                
+            }.then(on: self.queue) { pv in
+                
+                let context = ["pv": pv]
                 try response.render("index.stencil", context: context).end()
-            } catch {
-                Log.error("Failed to render index.stencil \(error.localizedDescription)")
+                
+            }.catch(on: self.queue) { error in
+                
+                response.status(.badRequest).send(error.localizedDescription)
+                
+            }.always {
+                nextHandler()
             }
-            
-            nextHandler()
-            
         }
         
         // A custom Not found handler

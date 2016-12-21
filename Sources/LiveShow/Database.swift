@@ -28,49 +28,46 @@ class Database {
     
     
     /// query the pv, and update with pv+1
-    func queryAndUpdatePV() -> Int {
-        
-        var pv: Int = 0
+    func queryAndUpdatePV() -> Promise<Int> {
         
         let select = Select(from: Database.accessStatisticTable).where(Database.accessStatisticTable.id == 1)
-        
         let connection = createConnection()
-        connection.connect { error in
-            if let error = error {
-                Log.error(error.localizedDescription)
-                return
-            }
-
-        }
         
-        connection.execute(query: select) { queryResult in
-            guard let resultSet = queryResult.asResultSet else {
-                return
-            }
+        
+        return firstly {
             
-            let t = resultSet.rows.map { zip(resultSet.titles, $0) }
-            let _ = t.map {
-                $0.forEach {
-                    let (title, value) = $0
-                    if title == "pv", let value = value, let valueString = value as? String {
-                        pv = Int(valueString) ?? 0
-                        return
-                    }
-                }
+            connection.connect()
+            
+        }.then(on: queue) { () -> Promise<QueryResult> in
+            
+            select.execute(connection)
+            
+        }.then(on: queue) {result -> ResultSet in
+            
+            guard let resultSet = result.asResultSet else {throw LiveShowError.noResult}
+            return resultSet
+            
+        }.then(on: queue) { resultSet -> Int in
+            
+            var pv = 0
+            let fields = resultToRows(resultSet: resultSet)
+            
+            if let pvStr = fields.first?["pv"] as? String, let PV = Int(pvStr) {
+                pv = PV
             }
+            return pv
+            
+        }.then(on: queue) { pv -> Int in
+                
+                // update 
+                let updatePv = pv + 1
+                let update = Update(Database.accessStatisticTable, set: [(Database.accessStatisticTable.pv, updatePv)], where: Database.accessStatisticTable.id == 1)
+                let _ = update.execute(connection)
+                return updatePv
+                
+        }.always(on: queue) {
+            connection.closeConnection()
         }
-        
-        // update pv
-        pv += 1
-        
-        let update = Update(Database.accessStatisticTable, set: [(Database.accessStatisticTable.pv, pv)], where: Database.accessStatisticTable.id == 1)
-        connection.execute(query: update) { result in
-            if let error = result.asError {
-                Log.error("update pv failed: " + error.localizedDescription)
-            }
-        }
-        
-        return pv
     }
     
 }
