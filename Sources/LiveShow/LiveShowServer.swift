@@ -20,6 +20,8 @@ import MiniPromiseKit
 
 public class LiveShowServer {
     
+    public static let sharedInstance = LiveShowServer()
+    
     let router = Router()
     let database = Database()
     let queue = DispatchQueue(label: "com.liveshow-server", attributes: .concurrent)
@@ -85,11 +87,11 @@ public class LiveShowServer {
         }
         
         
-        router.get("/home/anchors") {
-            request, response,nextHandler in
-            self.rankRequest(url: Config.moreAnchorUrl, parameters: request.queryParameters, with: response)
-            nextHandler()
-        }
+//        router.get("/home/anchors") {
+//            request, response,nextHandler in
+//            self.rankRequest(url: Config.moreAnchorUrl, parameters: request.queryParameters, with: response)
+//            nextHandler()
+//        }
         
         router.get("/play/live") {
             request, response,nextHandler in
