@@ -20,11 +20,11 @@ import MiniPromiseKit
 
 public class LiveShowServer {
     
-    public static let sharedInstance = LiveShowServer()
-    
     let router = Router()
-    let database = Database()
+    let database = Database.sharedInstance
     let queue = DispatchQueue(label: "com.liveshow-server", attributes: .concurrent)
+    
+    var controllers = [BaseController]()
     
     public init() {
         
@@ -37,6 +37,9 @@ public class LiveShowServer {
             return "Hello world"
         }
         router.add(templateEngine: StencilTemplateEngine(namespace: nameSpace))
+        
+        // register controller
+        registerControllers()
         
         // 明星榜
         router.get("/rankStar") {
@@ -160,6 +163,7 @@ public class LiveShowServer {
                 nextHandler()
             }
         }
+
         
         // A custom Not found handler
         router.all { request, response, next in
@@ -173,6 +177,10 @@ public class LiveShowServer {
             next()
         }
         
+    }
+    
+    private func registerControllers() {
+        controllers.append(HomeController(router))
     }
     
     // 启动服务器

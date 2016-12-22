@@ -17,9 +17,14 @@ class Database {
     
     let queue = DispatchQueue(label: "com.liveshow-database", attributes: .concurrent)
     
-    static let accessStatisticTable = AccessStatisticTable()
+    static let sharedInstance = Database()
     
-    private func createConnection() -> Connection {
+    static let accessStatisticTable = AccessStatisticTable()
+    static let anchorTable = AnchorTable()
+    static let userTable = UserTable()
+    static let liverUrlTable = LiveUrlTable()
+    
+    func createConnection() -> Connection {
         return PostgreSQLConnection(host: PrivateConfig.databaseHost, port: PrivateConfig.databasePort,
                                     options: [.userName(PrivateConfig.databaseUserName),
                                               .password(PrivateConfig.databasePassword),
