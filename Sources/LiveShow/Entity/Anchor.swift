@@ -10,16 +10,32 @@
 struct Anchor {
     
     let id: Int
-    let uid: Int
-    let roomId: Int
-    let type: Int
-    let name: String
-    let isLive: Bool
-    let focus: Int
-    let pic51: String
-    let pic74: String
-    let created: Int?
-    let modified: Int?
+    var uid: Int
+    var roomId: Int
+    var type: Int
+    var name: String
+    var isLive: Bool
+    var push: Int
+    var focus: Int
+    var pic51: String
+    var pic74: String
+    var created: Int?
+    var modified: Int?
+    
+    init() {
+        id = 0
+        uid = 0
+        roomId = 0
+        type = 0
+        push = 0
+        name = ""
+        isLive = false
+        focus = 0
+        pic51 = ""
+        pic74 = ""
+        created = nil
+        modified = nil
+    }
 
 }
 
@@ -47,6 +63,12 @@ extension Anchor: FieldMappable {
         
         if let fieldType = fields["type"] {
             type = Int(fieldType as! String)!
+        } else {
+            return nil
+        }
+        
+        if let fieldPush = fields["push"] {
+            push = Int(fieldPush as! String)!
         } else {
             return nil
         }

@@ -48,7 +48,7 @@ extension Database {
         }
     }
     
-    func insert(anchor: Anchor) -> Promise<Void> {
+    func insert(with anchor: Anchor) -> Promise<Void> {
         
         let anchorTable = Database.anchorTable
         let insert = Insert(into: anchorTable,
@@ -56,17 +56,19 @@ extension Database {
                                 anchorTable.uid,
                                 anchorTable.roomId,
                                 anchorTable.type,
+                                anchorTable.push,
                                 anchorTable.name,
                                 anchorTable.isLive,
                                 anchorTable.focus,
                                 anchorTable.pic51,
-                                anchorTable.pic74,
+                                anchorTable.pic74
                             ], values: [
                                 String(anchor.uid),
                                 String(anchor.roomId),
                                 String(anchor.type),
+                                String(anchor.push),
                                 anchor.name,
-                                String(anchor.isLive),
+                                anchor.isLive ? "1":"0",
                                 String(anchor.focus),
                                 anchor.pic51,
                                 anchor.pic74
@@ -81,6 +83,7 @@ extension Database {
         }.then(on: queue) { result -> Void in
             if let error = result.asError {
                 Log.error(error.localizedDescription)
+                throw LiveShowError.databaseError("insert anchor error")
             }
         }.always(on: queue) {
                 connection.closeConnection()

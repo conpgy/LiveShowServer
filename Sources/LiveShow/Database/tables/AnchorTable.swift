@@ -17,6 +17,7 @@ final class AnchorTable: Table {
     let uid = Column("uid")
     let roomId = Column("room_id")
     let type = Column("type")
+    let push = Column("push")
     let name = Column("name")
     let isLive = Column("is_live")
     let focus = Column("focus")

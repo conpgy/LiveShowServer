@@ -40,20 +40,21 @@ class LiveShowTests: XCTestCase {
         let e = expectation(description: "anchor inserted")
         
         let database = Database()
-        
-        let anchor = Anchor()
+
+        var anchor = Anchor()
         anchor.uid = 1
         anchor.roomId = 1
         anchor.type = 0
-        anchor.name = "one ji all"
-        anchor.isLive = true
-        anchor.focus = 120
-        anchor.pic51="http://www.baidu.com"
-        anchor.pic74 = "http://www.totorotrip.com"
+        anchor.name = "one is all"
+        anchor.isLive = false
+        anchor.focus = 200
+        anchor.pic51 = "onejiall.com"
+        anchor.pic74 = "alljione.com"
+        anchor.push = 1
         
         
         firstly {
-            database.insert(anchor)
+            database.insert(with: anchor)
             }.then { result in
                 e.fulfill()
             }.catch { error in
@@ -64,7 +65,7 @@ class LiveShowTests: XCTestCase {
         
     }
     
-    static var allTests: [(String, (LiveTests) -> () throws -> Void)] {
+    static var allTests: [(String, (LiveShowTests) -> () throws -> Void)] {
         return [
             ("test_insertAnchor", test_insertAnchor)
         ]
