@@ -21,48 +21,57 @@ class HomeController: BaseController {
         
         router.get("/home/anchors") { request, response,nextHandler in
             
-            do {
+            let parameters = request.queryParameters
+            
+            var anchorsResponse = AnchorsResponse()
+            
+            guard let typeString = parameters["type"], let type = Int(typeString) else {
                 
-                let parameters = request.queryParameters
+                anchorsResponse.message = "params type is empty"
+                anchorsResponse.code = .paramsError
+                JSON(anchorsResponse.dictionary) |> response.send(json:)
+                response.status(.badRequest)
+                try? response.end()
+                return
                 
-                guard let typeString = parameters["type"], let type = Int(typeString) else {
-                    try response.send("anchors").end()
-                    return
-                }
-                guard let startString = parameters["start"], let start = Int(startString) else {
-                    try response.send("anchors").end()
-                    return
-                }
-                guard let pageSizeString = parameters["pageSize"], let pageSize = Int(pageSizeString) else {
-                    try response.send("anchors").end()
-                    return
-                }
+            }
+            
+            var start = 0
+            if let startString = parameters["start"], let paramsStart = Int(startString) {
+                start = paramsStart
+            }
+            
+            guard let pageSizeString = parameters["pageSize"], let pageSize = Int(pageSizeString) else {
                 
-                let selection = self.database.anchors(with: type, start: start, pageSize: pageSize)
+                anchorsResponse.message = "pageSize is empty"
+                anchorsResponse.code = .paramsError
+                JSON(anchorsResponse.dictionary) |> response.send(json:)
+                response.status(.badRequest)
+                try? response.end()
+                return
+            }
+            
+            let selection = self.database.anchors(with: type, start: start, pageSize: pageSize)
+            
+            let _ = firstly {
                 
-                let _ = firstly {
-                    
-                    self.database.queryAnchors(with: selection)
-                    
+                self.database.queryAnchors(with: selection)
+                
                 }.then(on: self.queue) { anchors in
                     
-                    JSON(anchors.dictionary) |> response.send(json:)
-                    try response.end()
+                    anchorsResponse.anchors.append(contentsOf: anchors)
+                    anchorsResponse.code = .success
                     
                 }.catch(on: self.queue) { error in
                     
                     Log.error(error.localizedDescription)
-                    response.send(error.localizedDescription)
+                    anchorsResponse.message = error.localizedDescription
                     
+                }.always(on: self.queue) {
+                    
+                    JSON(anchorsResponse.dictionary) |> response.send(json:)
                     try? response.end()
-                    
-                    
-                }.always {
                     nextHandler()
-                }
-                
-            } catch {
-                Log.error("/home/anchors: " + error.localizedDescription)
             }
         }
     }

@@ -10,31 +10,20 @@
 struct Anchor {
     
     let id: Int
-    var uid: Int
-    var roomId: Int
-    var type: Int
-    var name: String
-    var isLive: Bool
-    var push: Int
-    var focus: Int
-    var pic51: String
-    var pic74: String
-    var created: Int?
-    var modified: Int?
+    var uid = 0
+    var roomId = 0
+    var type = 0
+    var name = ""
+    var isLive = false
+    var push = 0
+    var focus = 0
+    var pic51 = ""
+    var pic74 = ""
+    var created: String = ""
+    var modified: String?
     
     init() {
         id = 0
-        uid = 0
-        roomId = 0
-        type = 0
-        push = 0
-        name = ""
-        isLive = false
-        focus = 0
-        pic51 = ""
-        pic74 = ""
-        created = nil
-        modified = nil
     }
 
 }
@@ -55,7 +44,7 @@ extension Anchor: FieldMappable {
             return nil
         }
 
-        if let fieldRoomId = fields["roomId"] {
+        if let fieldRoomId = fields["room_id"] {
             roomId = Int(fieldRoomId as! String)!
         } else {
             return nil
@@ -75,7 +64,7 @@ extension Anchor: FieldMappable {
 
         name = fields["name"] as? String ?? ""
         
-        if let fieldIsLive = fields["isLive"] {
+        if let fieldIsLive = fields["is_live"] {
             isLive = Bool(fieldIsLive as! String) ?? false
         } else {
             isLive = false
@@ -91,16 +80,12 @@ extension Anchor: FieldMappable {
         pic74 = fields["pic51"] as? String ?? ""
 
         if let fieldCreated = fields["created"] as? String {
-            created = Int(fieldCreated)!
+            created = fieldCreated
         } else {
-            created = nil
+            return nil
         }
         
-        if let fieldModified = fields["modified"] as? String {
-            modified = Int(fieldModified)!
-        } else {
-            modified = nil
-        }
+        modified = fields["modified"] as? String
         
     }
     
@@ -120,10 +105,8 @@ extension Anchor: DictionaryConvertible {
         items["focus"] = focus
         items["pic51"] = pic51
         items["pic74"] = pic74
-        
-        if let created = created {
-            items["created"] = created
-        }
+        items["created"] = created
+
         if let modified = modified {
             items["modified"] = modified
         }
