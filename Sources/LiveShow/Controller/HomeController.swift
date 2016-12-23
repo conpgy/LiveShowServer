@@ -13,6 +13,8 @@ import LoggerAPI
 import MiniPromiseKit
 import SwiftyJSON
 
+
+/// live home api
 class HomeController: BaseController {
     
     override init(_ router: Router) {
@@ -23,15 +25,13 @@ class HomeController: BaseController {
             
             let parameters = request.queryParameters
             
-            var anchorsResponse = AnchorsResponse()
+            var result = AnchorsFormatResult()
             
             guard let typeString = parameters["type"], let type = Int(typeString) else {
                 
-                anchorsResponse.message = "params type is empty"
-                anchorsResponse.code = .paramsError
-                JSON(anchorsResponse.dictionary) |> response.send(json:)
-                response.status(.badRequest)
-                try? response.end()
+                result.message = "params type is empty"
+                result.code = .paramsError
+                self.sendFail(with: response, responseFormat: result)
                 return
                 
             }
@@ -43,11 +43,9 @@ class HomeController: BaseController {
             
             guard let pageSizeString = parameters["pageSize"], let pageSize = Int(pageSizeString) else {
                 
-                anchorsResponse.message = "pageSize is empty"
-                anchorsResponse.code = .paramsError
-                JSON(anchorsResponse.dictionary) |> response.send(json:)
-                response.status(.badRequest)
-                try? response.end()
+                result.message = "pageSize is empty"
+                result.code = .paramsError
+                self.sendFail(with: response, responseFormat: result)
                 return
             }
             
@@ -59,17 +57,17 @@ class HomeController: BaseController {
                 
                 }.then(on: self.queue) { anchors in
                     
-                    anchorsResponse.anchors.append(contentsOf: anchors)
-                    anchorsResponse.code = .success
+                    result.anchors.append(contentsOf: anchors)
+                    result.code = .success
                     
                 }.catch(on: self.queue) { error in
                     
                     Log.error(error.localizedDescription)
-                    anchorsResponse.message = error.localizedDescription
+                    result.message = error.localizedDescription
                     
                 }.always(on: self.queue) {
                     
-                    JSON(anchorsResponse.dictionary) |> response.send(json:)
+                    JSON(result.dictionary) |> response.send(json:)
                     try? response.end()
                     nextHandler()
             }

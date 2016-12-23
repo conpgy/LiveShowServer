@@ -27,7 +27,7 @@ extension LiveShowError: LocalizedError {
             return "Could not make a connection"
             
         case .noResult:
-            return "Database returned no result"
+            return "No result"
             
         case .invalidLengthQuery(let query):
             return "\(query) was too short"

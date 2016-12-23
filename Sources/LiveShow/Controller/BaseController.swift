@@ -8,6 +8,7 @@
 
 import Dispatch
 import Kitura
+import SwiftyJSON
 
 class BaseController {
     
@@ -17,5 +18,12 @@ class BaseController {
     
     init(_ router: Router) {
         self.router = router
+    }
+    
+    func sendFail(with response: RouterResponse, responseFormat: ResponseFormat) {
+
+        JSON(responseFormat.dictionary) |> response.send(json:)
+        response.status(.badRequest)
+        try? response.end()
     }
 }
