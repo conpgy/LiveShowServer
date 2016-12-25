@@ -1,10 +1,10 @@
 import PackageDescription
 
 let package = Package(
-    name: "LiveShowServer",
+    name: "Live",
     targets: [
-        Target(name: "Server", dependencies: [.Target(name: "LiveShow")]),
-        Target(name: "LiveShow")
+        Target(name: "LiveServer"),
+        Target(name: "ChatServer"),
     ],
 
 	dependencies: [

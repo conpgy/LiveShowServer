@@ -1,12 +1,8 @@
 import LoggerAPI
 import HeliumLogger
-import LiveShow
-import Foundation
-
+import Dispatch
 
 Log.logger = HeliumLogger()
 
-// start server
 let server = LiveShowServer()
-
 server.run()
