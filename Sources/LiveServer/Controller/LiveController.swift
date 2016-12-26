@@ -39,7 +39,7 @@ class LiveController: BaseController {
                 liveFormatResult.url = url
                 
             }.catch(on: self.queue) { error in
-                    
+                
                 Log.error(error.localizedDescription)
                 liveFormatResult.message = error.localizedDescription
                     

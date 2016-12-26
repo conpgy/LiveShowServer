@@ -28,12 +28,11 @@ extension Database {
             
         }.then(on: queue) { result -> ResultSet in
             
-            Log.info("ResultSet testing ...............")
             guard let resultSet = result.asResultSet else {throw LiveShowError.noResult}
             return resultSet
             
         }.then(on: queue) { resultSet -> String in
-            Log.info("resultToRows testing ...............")
+            
             let fields = resultToRows(resultSet: resultSet)
             return fields.first?["url"] as! String? ?? ""
             

@@ -2,7 +2,7 @@
 //  LiveShowServer.swift
 //  LiveShowServer
 //
-//  Created by 彭根勇 on 2016/12/13.
+//  Created by penggenyong on 2016/12/13.
 //
 //
 
