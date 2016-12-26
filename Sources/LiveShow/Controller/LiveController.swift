@@ -51,5 +51,15 @@ class LiveController: BaseController {
             }
             
         }
+        
+        router.get("/live") { request, response, next in
+            
+            do {
+                try response.render("live.stencil", context: [:]).end()
+            } catch let error {
+                print("live error: \(error.localizedDescription)")
+            }
+            
+        }
     }
 }
