@@ -104,7 +104,7 @@ public class ChatServer {
                             return
                         }
                         print("Server received from connection at \(socket.remoteHostname) on port \(socket.remotePort)")
-                        let reply = "Server response: \n\(response)\n"
+                        let reply = response
                         try socket.write(from: reply)
                         
                         if (response.uppercased().hasPrefix(ChatServer.quitCommand) || response.uppercased().hasPrefix(ChatServer.shutdownCommand))
