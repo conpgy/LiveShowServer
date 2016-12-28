@@ -39,9 +39,10 @@ public class ChatServer {
             
             try socket.listen(on: self.port)
             
+            print("Chat Server Listening on port: \(socket.listeningPort)")
+            
             listen(with: socket)
             
-            print("Listening on port: \(socket.listeningPort)")
             
         } catch let error {
             guard let socketError = error as? Socket.Error else {
@@ -61,7 +62,6 @@ public class ChatServer {
             repeat {
                 let newSocket = try listenSocket.acceptClientConnection()
                 print("Accepted connection from: \(newSocket.remoteHostname) on port \(newSocket.remotePort)")
-                print("Socket Signature: \(newSocket.signature?.description)")
                 
                 self.addNewConnection(socket: newSocket)
                 
@@ -104,6 +104,7 @@ public class ChatServer {
                             return
                         }
                         print("Server received from connection at \(socket.remoteHostname) on port \(socket.remotePort)")
+                        print(response)
                         let reply = response
                         try socket.write(from: reply)
                         
