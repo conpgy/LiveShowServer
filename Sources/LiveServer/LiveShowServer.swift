@@ -139,6 +139,18 @@ public class LiveShowServer {
 //        }
         
         
+        router.get("/chat") {
+            request, response, next in
+            
+            do {
+                try response.send("Hello").end()
+            } catch let error {
+                print(error)
+            }
+            next()
+        }
+        
+        
         router.get("/") {
             request, response,nextHandler in
             

@@ -7,12 +7,12 @@
 //
 
 import Foundation
-import WebSocket
-import Axis
+//import WebSocket
+//import Axis
 
-class WebChatServer: Axis.InputStream, Axis.OutputStream {
+class WebChatServer {
     
-    let websocket: WebSocket
+//    let websocket: WebSocket
     
     init() {
         
