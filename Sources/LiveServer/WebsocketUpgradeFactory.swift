@@ -7,11 +7,14 @@
 //
 
 import KituraNet
+import Axis
 import WebSocket
 
 class WebsocketUpgradeFactory: ConnectionUpgradeFactory {
     
     let name = "websocket"
+    var processor: WebsocketIncomingSocketProcessor!
+    
     
     func upgrade(handler: IncomingSocketHandler, request: ServerRequest, response: ServerResponse) -> (IncomingSocketProcessor?, String?) {
         
@@ -21,11 +24,14 @@ class WebsocketUpgradeFactory: ConnectionUpgradeFactory {
             if let secValue = WebSocket.accept(secKey) {
                 print("Sec-WebSocket-Accept: " + secValue)
                 response.headers.append("Sec-WebSocket-Accept", value: [secValue])
-//                response.headers.append("Sec-WebSocket-Accept", value: ["ddd"])
             }
         }
         
-        return (WebsocketIncomingSocketProcessor(), nil)
+        if processor == nil {
+            processor = WebsocketIncomingSocketProcessor()
+        }
+        
+        return (processor, nil)
     }
     
 }
