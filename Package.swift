@@ -16,6 +16,6 @@ let package = Package(
         .Package(url: "https://github.com/IBM-Swift/Kitura-MustacheTemplateEngine.git", majorVersion: 1, minor: 4),
         .Package(url: "https://github.com/IBM-Swift/Kitura-StencilTemplateEngine.git", majorVersion: 1, minor: 4),
         .Package(url: "https://github.com/IBM-Swift/Kitura-Markdown", majorVersion: 0, minor: 6),
-        .Package(url: "https://github.com/Zewo/WebSocket.git", majorVersion: 0, minor: 14),
+        .Package(url: "https://github.com/IBM-Swift/Kitura-WebSocket", majorVersion: 0, minor: 4)
 	]
 )
