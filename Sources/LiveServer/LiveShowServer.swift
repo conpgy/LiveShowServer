@@ -90,6 +90,11 @@ public class LiveShowServer {
         }
         
         
+        router.get("/home/anchors") {
+            request, response,nextHandler in
+            self.rankRequest(url: Config.moreAnchorUrl, parameters: request.queryParameters, with: response)
+            nextHandler()
+        }
 
         
         
@@ -215,6 +220,7 @@ extension LiveShowServer {
             }
             
             let json = JSON(data: data)
+//            print(json.description)
             
             do {
                 try response.send(json: json).end()
